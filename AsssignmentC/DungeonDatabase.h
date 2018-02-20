@@ -15,6 +15,8 @@ class Room
 {
 	string m_Name;
 
+	Dungeon* m_Dungeon;
+
 	Room* m_dir1;
 	Room* m_dir2;
 	Room* m_dir3;
@@ -24,7 +26,7 @@ class Room
 	Room* m_dir7;
 	Room* m_dir8;
 public:
-	Room();
+	Room(Dungeon* d);
 
 	bool viewed;
 
@@ -63,13 +65,21 @@ class Dungeon
 	Player* m_CurrentPlayer;
 	bool m_isComplete = false;
 	bool m_Exit = false;
+	bool m_StaticDungeon = true;
+	bool m_TextDungeon = false;
+	bool m_RandomDungeon = false;
 public:
 	Dungeon(int maxRooms, Player* currentP);
 	vector<Room*> getRooms(void);
-	bool isComplete(void);
+	bool isComplete(char input);
 	bool addRoom(void);
 	bool getComplete(void);
 	string displayHelp(void);
 	void ExitProgram(void);
 	bool Exit(void);
+	string ReadFile(string path);
+	bool getStaticDungeon();
+	bool getTextDungeon();
+	bool getRandomDungeon();
+	void setFinish(Room* finish);
 };

@@ -1,0 +1,7 @@
+Help File:
+
+When the program runs you will be placed in a room.
+To move rooms use the 1-8 keys as shown on the menu.
+Your goal is to find the exit to the maze which is in one of the rooms.
+
+Press Q to quit.

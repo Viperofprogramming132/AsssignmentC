@@ -4,10 +4,11 @@
 #include "iostream"
 #include "cstdint"
 #include <string>
+#include "fstream"
 
 using namespace std;
 
-Room::Room()
+Room::Room(Dungeon* d) : m_Dungeon(d)
 {
 	m_dir1 = NULL;
 	m_dir2 = NULL;
@@ -17,6 +18,25 @@ Room::Room()
 	m_dir6 = NULL;
 	m_dir7 = NULL;
 	m_dir8 = NULL;
+	string line;
+
+	ifstream myfile("Room Names.txt");
+
+	int random = rand() % 100;
+	if (myfile.is_open())
+	{
+		int num = 0;
+		while (getline(myfile, line))
+		{
+			if (num == random)
+			{
+				setName(line);
+			}
+
+			num++;
+		}
+		myfile.close();
+	}
 }
 
 bool Room::link(uint8_t dir, Room& room)
@@ -30,31 +50,31 @@ bool Room::link(uint8_t dir, Room& room)
 		complete = true;
 		break;
 	case 2:
-		m_dir1 = &room;
+		m_dir2 = &room;
 		complete = true;
 		break;
 	case 3:
-		m_dir1 = &room;
+		m_dir3 = &room;
 		complete = true;
 		break;
 	case 4:
-		m_dir1 = &room;
+		m_dir4 = &room;
 		complete = true;
 		break;
 	case 5:
-		m_dir1 = &room;
+		m_dir5 = &room;
 		complete = true;
 		break;
 	case 6:
-		m_dir1 = &room;
+		m_dir6 = &room;
 		complete = true;
 		break;
 	case 7:
-		m_dir1 = &room;
+		m_dir7 = &room;
 		complete = true;
 		break;
 	case 8:
-		m_dir1 = &room;
+		m_dir8 = &room;
 		complete = true;
 		break;
 	}
@@ -129,7 +149,7 @@ string Player::move(char dir)
 			break;
 		}
 		m_Location = &(m_Location->dir1());
-		response = "You Went North\n" + m_Location->getName();
+		response = "You Went North to the " + m_Location->getName();
 		break;
 	case '2':
 		if (&m_Location->dir2() == NULL)
@@ -200,7 +220,9 @@ string Player::move(char dir)
 		break;
 	case 'H':
 	case 'h':
-		response = m_Dungeon->displayHelp();
+		cout << m_Dungeon->displayHelp() << endl;
+		system("PAUSE");
+		system("CLS");
 		break;
 	default:
 		break;
@@ -225,26 +247,27 @@ Dungeon::Dungeon(int maxRooms, Player* currentP) : m_MaxRooms(maxRooms), m_Curre
 	m_CurrentPlayer->setDungeon(this);
 	for (int i = 0; i < m_MaxRooms;i++)
 	{
-		m_Rooms[i] = new Room();
+		m_Rooms[i] = new Room(this);
 	}
 }
 
-bool Dungeon::isComplete(void)
+bool Dungeon::isComplete(char input)
 {
-	char input = 'y';
+	
+	if (m_Finish != m_CurrentPlayer->getLocation())
+	{
+		m_isComplete = false;
+		system("CLS");
+		cout << "1: Head North\n2: Head North East\n3: Head East\n4: Head South East\n5: Head South\n6: Head South West\n7: Head West\n8: Head North West\nQ: Quit\nH: Help\n" << m_CurrentPlayer->move(input) << endl;
+	}
 	if (m_Finish == m_CurrentPlayer->getLocation())
 	{
 		system("CLS");
 		cout << "Congrats!\nYou found the end!";
+		system("PAUSE");
 		m_isComplete = true;
 	}
-	else
-	{
-		m_isComplete = false;
-		system("CLS");
-		cout << "1: Head North\n2: Head North East\n3: Head East\n4: Head South East\n5: Head South\n6: Head South West\n7: Head West\n8: Head North West\nQ: Quit\nH: Help\n" << m_CurrentPlayer->move(input);
-	}
-	cin >> input;
+	
 	return m_isComplete;
 }
 
@@ -265,5 +288,42 @@ bool Dungeon::Exit(void)
 
 string Dungeon::displayHelp(void)
 {
-	return "";
+	return ReadFile("Help.txt");
+}
+
+string Dungeon::ReadFile(string path)
+{
+	string line;
+	string value;
+	ifstream myfile("Help.txt");
+	if (myfile.is_open())
+	{
+
+		while (getline(myfile, line))
+		{
+			value.append(line + "\n");
+		}
+		myfile.close();
+	}
+	return value;
+}
+
+bool Dungeon::getStaticDungeon()
+{
+	return m_StaticDungeon;
+}
+
+bool Dungeon::getTextDungeon()
+{
+	return m_TextDungeon;
+}
+
+bool Dungeon::getRandomDungeon()
+{
+	return m_RandomDungeon;
+}
+
+void Dungeon::setFinish(Room * finish)
+{
+	m_Finish = finish;
 }

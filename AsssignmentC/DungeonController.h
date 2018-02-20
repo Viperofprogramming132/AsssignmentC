@@ -3,6 +3,9 @@
 
 class DungeonController
 {
+	void StaticDungeon();
+	void TextDungeon();
+	void RandomDungeon();
 public:
 	DungeonController();
 };

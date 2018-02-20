@@ -1,0 +1,100 @@
+Amphitheater
+Antechamber
+Asylum
+Atrium
+Battlement
+Belfry
+Cave
+Cavern
+Chapel
+Cloister
+Coliseum
+Courtyard
+Depository
+Foyer
+Gallery
+Garden
+Garderobe
+Greenhouse 
+Hideaway
+Hold
+Infirmary
+Keep
+Kitchen
+Laboratory
+Labrynth
+Library 
+Minaret
+Mine
+Necropolis
+Nursery
+Observatory
+Office
+Ossuary
+Oubliette
+Pantry
+Park
+Passageway
+Prison
+Rampart
+Repository
+Room
+Sanctum
+Sepulcher
+Spire
+Stairwell
+Steeple
+Storage Room
+Study
+Sunroom 
+Temple
+Threshold
+Tower
+Tunnel
+Turret
+Vault
+Vestibule
+Walkway
+Privy
+Ballroom
+Great Hall
+Cloister
+Training Hall
+Courtyard
+Gallery
+Trophy Hall
+Propylaeum
+Conservatory
+Kennel
+Larder
+Crematorium
+Ossuary
+Panopticon
+Tomb
+Crypt
+Workshop
+Foundry
+Shrine
+Infirmary
+Meeting Hall
+Office
+Parlor
+Sitting Room
+Anteroom
+Foyer
+Antechamber
+Entrance Hall
+Atrium
+Music Hall
+Theater
+Wardroom
+Closet
+War Room
+Bedchamber
+Cloakroom
+Dressing Room
+Studio
+Linen Room
+Boudoir
+Refectory
+Sewing Room
