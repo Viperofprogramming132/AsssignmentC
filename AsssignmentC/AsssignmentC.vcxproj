@@ -139,6 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssignmentC.cpp" />
+    <ClCompile Include="DungeonController.cpp" />
+    <ClCompile Include="DungeonDatabase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DungeonController.h" />
+    <ClInclude Include="DungeonDatabase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
