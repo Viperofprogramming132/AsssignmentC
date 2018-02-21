@@ -158,7 +158,7 @@ string Player::move(char dir)
 			break;
 		}
 		m_Location = &(m_Location->dir2());
-		response = "You Went North East\n" + m_Location->getName();
+		response = "You Went North East to the " + m_Location->getName();
 		break;
 	case '3':
 		if (&m_Location->dir3() == NULL)
@@ -167,7 +167,7 @@ string Player::move(char dir)
 			break;
 		}
 		m_Location = &(m_Location->dir3());
-		response = "You Went East\n" + m_Location->getName();
+		response = "You Went East to the " + m_Location->getName();
 		break;
 	case '4':
 		if (&m_Location->dir4() == NULL)
@@ -176,7 +176,7 @@ string Player::move(char dir)
 			break;
 		}
 		m_Location = &(m_Location->dir4());
-		response = "You Went South East\n" + m_Location->getName();
+		response = "You Went South East to the " + m_Location->getName();
 		break;
 	case '5':
 		if (&m_Location->dir5() == NULL)
@@ -185,7 +185,7 @@ string Player::move(char dir)
 			break;
 		}
 		m_Location = &(m_Location->dir5());
-		response = "You Went South\n" + m_Location->getName();
+		response = "You Went South to the " + m_Location->getName();
 		break;
 	case '6':
 		if (&m_Location->dir6() == NULL)
@@ -194,7 +194,7 @@ string Player::move(char dir)
 			break;
 		}
 		m_Location = &(m_Location->dir6());
-		response = "You Went South West\n" + m_Location->getName();
+		response = "You Went South West to the " + m_Location->getName();
 		break;
 	case '7':
 		if (&m_Location->dir7() == NULL)
@@ -203,7 +203,7 @@ string Player::move(char dir)
 			break;
 		}
 		m_Location = &(m_Location->dir7());
-		response = "You Went West\n" + m_Location->getName();
+		response = "You Went West to the " + m_Location->getName();
 		break;
 	case '8':
 		if (&m_Location->dir8() == NULL)
@@ -212,7 +212,7 @@ string Player::move(char dir)
 			break;
 		}
 		m_Location = &(m_Location->dir8());
-		response = "You Went North West\n" + m_Location->getName();
+		response = "You Went North West to the " + m_Location->getName();
 		break;
 	case 'Q':
 	case 'q':
