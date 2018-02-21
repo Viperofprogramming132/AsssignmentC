@@ -72,8 +72,6 @@ public:
 	Dungeon(int maxRooms, Player* currentP);
 	vector<Room*> getRooms(void);
 	bool isComplete(char input);
-	bool addRoom(void);
-	bool getComplete(void);
 	string displayHelp(void);
 	void ExitProgram(void);
 	bool Exit(void);
@@ -82,4 +80,9 @@ public:
 	bool getTextDungeon();
 	bool getRandomDungeon();
 	void setFinish(Room* finish);
+	void setStaticDun();
+	void setTextDun();
+	void setRanDun();
+	void setMaxRooms(int maxRooms);
+	void addRoom();
 };

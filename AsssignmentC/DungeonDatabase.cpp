@@ -245,10 +245,7 @@ Dungeon::Dungeon(int maxRooms, Player* currentP) : m_MaxRooms(maxRooms), m_Curre
 {
 	m_Rooms.resize(m_MaxRooms);
 	m_CurrentPlayer->setDungeon(this);
-	for (int i = 0; i < m_MaxRooms;i++)
-	{
-		m_Rooms[i] = new Room(this);
-	}
+	addRoom();
 }
 
 bool Dungeon::isComplete(char input)
@@ -326,4 +323,40 @@ bool Dungeon::getRandomDungeon()
 void Dungeon::setFinish(Room * finish)
 {
 	m_Finish = finish;
+}
+
+void Dungeon::setStaticDun()
+{
+	m_StaticDungeon = true;
+	m_TextDungeon = false;
+	m_RandomDungeon = false;
+}
+
+void Dungeon::setTextDun()
+{
+	m_StaticDungeon = false;
+	m_TextDungeon = true;
+	m_RandomDungeon = false;
+}
+
+void Dungeon::setRanDun()
+{
+	m_StaticDungeon = false;
+	m_TextDungeon = false;
+	m_RandomDungeon = true;
+}
+
+void Dungeon::setMaxRooms(int maxRooms)
+{
+	m_MaxRooms = maxRooms;
+	m_Rooms.resize(m_MaxRooms);
+	addRoom();
+}
+
+void Dungeon::addRoom()
+{
+	for (int i = 0; i < m_MaxRooms;i++)
+	{
+		m_Rooms[i] = new Room(this);
+	}
 }

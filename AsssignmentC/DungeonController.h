@@ -5,7 +5,7 @@ class DungeonController
 {
 	void StaticDungeon();
 	void TextDungeon();
-	void RandomDungeon();
+	void RandomDungeon(int maxRooms);
 public:
 	DungeonController();
 };

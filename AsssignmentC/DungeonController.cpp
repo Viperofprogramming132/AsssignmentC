@@ -1,6 +1,7 @@
 #include "DungeonController.h"
 #include "iostream"
 #include <string>
+#include <ctime>
 
 Player* player = new Player();
 Dungeon* dungeon = new Dungeon(10, player);
@@ -11,6 +12,42 @@ using namespace std;
 
 DungeonController::DungeonController()
 {
+	bool good = false;
+	int response;
+	
+	while (!good)
+	{
+		cout << "Please Select a way to run the dungeon:\n1: Hard Coded\n2: Text File\n3: Random" << endl;
+		cin >> response;
+
+		
+		switch (response)
+		{
+		case 1:
+			dungeon->setStaticDun();
+			good = true;
+			break;
+		case 2:
+			dungeon->setTextDun();
+			good = true;
+			break;
+		case 3:
+			//throw new exception("Currently Not Implemented");
+			cout << "How many rooms do you want in the dungeon or -1 for random: ";
+			cin >> response;
+			system("CLS");
+			dungeon->setRanDun();
+			good = true;
+			break;
+		default:
+			cout << "Please Only enter 1, 2 or 3" << endl;
+			system("pause");
+			system("CLS");
+			break;
+		}
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
 	if (dungeon->getStaticDungeon())
 	{
 		StaticDungeon();
@@ -21,7 +58,7 @@ DungeonController::DungeonController()
 	}
 	else if (dungeon->getRandomDungeon())
 	{
-		RandomDungeon();
+		RandomDungeon(response);
 	}
 	char input = 'y';
 	player->setLocation(dungeon->getRooms()[0]);
@@ -72,7 +109,12 @@ void DungeonController::TextDungeon()
 
 }
 
-void DungeonController::RandomDungeon()
+void DungeonController::RandomDungeon(int maxRooms)
 {
-
+	srand(time(0));
+	if (maxRooms == -1)
+	{
+		maxRooms = rand() % 50;
+	}
+	dungeon->setMaxRooms(maxRooms);
 }
