@@ -85,4 +85,5 @@ public:
 	void setRanDun();
 	void setMaxRooms(int maxRooms);
 	void addRoom();
+	string displayMenu(char input);
 };

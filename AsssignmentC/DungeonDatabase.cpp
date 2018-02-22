@@ -255,7 +255,8 @@ bool Dungeon::isComplete(char input)
 	{
 		m_isComplete = false;
 		system("CLS");
-		cout << "1: Head North\n2: Head North East\n3: Head East\n4: Head South East\n5: Head South\n6: Head South West\n7: Head West\n8: Head North West\nQ: Quit\nH: Help\n" << m_CurrentPlayer->move(input) << endl;
+		cout << displayMenu(input) << endl;
+		
 	}
 	if (m_Finish == m_CurrentPlayer->getLocation())
 	{
@@ -266,6 +267,63 @@ bool Dungeon::isComplete(char input)
 	}
 	
 	return m_isComplete;
+}
+
+string Dungeon::displayMenu(char input)
+{
+	string output;
+	string moveOut = m_CurrentPlayer->move(input);
+	output.append("1: Head North \t\t\t");
+	if (&m_CurrentPlayer->getLocation()->dir1() != NULL)
+	{
+		output.append(m_CurrentPlayer->getLocation()->dir1().getName());
+	}
+
+	output.append("\n2: Head North East \t\t");
+	if (&m_CurrentPlayer->getLocation()->dir2() != NULL)
+	{
+		output.append(m_CurrentPlayer->getLocation()->dir2().getName());
+	}
+
+	output.append("\n3: Head East \t\t\t");
+	if (&m_CurrentPlayer->getLocation()->dir3() != NULL)
+	{
+		output.append(m_CurrentPlayer->getLocation()->dir3().getName());
+	}
+
+	output.append("\n4: Head South East \t\t");
+	if (&m_CurrentPlayer->getLocation()->dir4() != NULL)
+	{
+		output.append(m_CurrentPlayer->getLocation()->dir4().getName());
+	}
+
+	output.append("\n5: Head South \t\t\t");
+	if (&m_CurrentPlayer->getLocation()->dir5() != NULL)
+	{
+		output.append(m_CurrentPlayer->getLocation()->dir5().getName());
+	}
+
+	output.append("\n6: Head South West \t\t");
+	if (&m_CurrentPlayer->getLocation()->dir6() != NULL)
+	{
+		output.append(m_CurrentPlayer->getLocation()->dir6().getName());
+	}
+
+	output.append("\n7: Head West \t\t\t");
+	if (&m_CurrentPlayer->getLocation()->dir7() != NULL)
+	{
+		output.append(m_CurrentPlayer->getLocation()->dir7().getName());
+	}
+
+	output.append("\n8: Head North West \t\t");
+	if (&m_CurrentPlayer->getLocation()->dir8() != NULL)
+	{
+		output.append(m_CurrentPlayer->getLocation()->dir8().getName());
+	}
+
+	output.append("\nQ: Quit\nH: Help\n" + moveOut);
+
+	return output;
 }
 
 vector<Room*> Dungeon::getRooms(void)

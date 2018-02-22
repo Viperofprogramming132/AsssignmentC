@@ -113,7 +113,7 @@ void DungeonController::TextDungeon()
 	string delimiter = ",";
 	int num = 0;
 	myfile.open("Dungeon.txt");
-	dungeon->setMaxRooms(count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 2);
+	dungeon->setMaxRooms(count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 1);
 	myfile.close();
 	myfile.open("Dungeon.txt");
 	if (myfile.is_open())
@@ -140,12 +140,27 @@ void DungeonController::TextDungeon()
 
 void DungeonController::RandomDungeon(int maxRooms)
 {
+	
+	int rooms;
+	int roomNum;
 	srand(time(0));
 	if (maxRooms == -1)
 	{
 		maxRooms = rand() % 50;
 	}
 	dungeon->setMaxRooms(maxRooms);
+	vector<Room*> allRooms = dungeon->getRooms();
+	for (int i = 0; i < maxRooms;i++)
+	{
+		rooms = rand() % 2;
+		rooms++;
+		for (int j = 0; j < rooms;j++)
+		{
+			roomNum = rand() % maxRooms;
+
+			allRooms[i]->link(j + 1, *allRooms[roomNum]);
+		}
+	}
 }
 
 void DungeonController::CreateLinks(string values[9])
@@ -157,7 +172,7 @@ void DungeonController::CreateLinks(string values[9])
 	{
 		if (values[i] != "-")
 		{
-			rooms[roomNum - 1]->link(i, *rooms[stoi(values[i])]);
+			rooms[roomNum - 1]->link(i, *rooms[stoi(values[i])-1]);
 		}
 	}
 }
