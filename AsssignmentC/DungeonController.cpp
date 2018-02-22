@@ -2,6 +2,7 @@
 #include "iostream"
 #include <string>
 #include <ctime>
+#include "fstream"
 
 Player* player = new Player();
 Dungeon* dungeon = new Dungeon(10, player);
@@ -106,7 +107,35 @@ void DungeonController::StaticDungeon()
 
 void DungeonController::TextDungeon()
 {
+	ifstream myfile("Dungeon.txt");
+	string line;
+	string value[9];
+	string delimiter = ",";
+	int num = 0;
+	myfile.open("Dungeon.txt");
+	dungeon->setMaxRooms(count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 2);
+	myfile.close();
+	myfile.open("Dungeon.txt");
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			
+			num = 0;
+			size_t pos = 0;
+			string token;
+			while ((pos = line.find(delimiter)) != string::npos) {
+				token = line.substr(0, pos);
+				value[num] = token;
+				line.erase(0, pos + delimiter.length());
+				num++;
+			}
+			CreateLinks(value);
+		}
+		myfile.close();
+	}
 
+	dungeon->setFinish(dungeon->getRooms().back());
 }
 
 void DungeonController::RandomDungeon(int maxRooms)
@@ -117,4 +146,18 @@ void DungeonController::RandomDungeon(int maxRooms)
 		maxRooms = rand() % 50;
 	}
 	dungeon->setMaxRooms(maxRooms);
+}
+
+void DungeonController::CreateLinks(string values[9])
+{
+	int roomNum = stoi(values[0]);
+	vector<Room*> rooms = dungeon->getRooms();
+
+	for (int i = 1; i < 9; i++)
+	{
+		if (values[i] != "-")
+		{
+			rooms[roomNum - 1]->link(i, *rooms[stoi(values[i])]);
+		}
+	}
 }

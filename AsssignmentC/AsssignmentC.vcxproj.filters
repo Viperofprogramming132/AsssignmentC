@@ -40,5 +40,8 @@
     <Text Include="Room Names.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Dungeon.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

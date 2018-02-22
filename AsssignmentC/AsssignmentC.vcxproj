@@ -148,6 +148,7 @@
     <ClInclude Include="DungeonDatabase.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Dungeon.txt" />
     <Text Include="Help.txt" />
     <Text Include="Room Names.txt" />
   </ItemGroup>
