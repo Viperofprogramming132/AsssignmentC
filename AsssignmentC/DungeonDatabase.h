@@ -76,7 +76,6 @@ public:
 	string displayHelp(void);
 	void ExitProgram(void);
 	bool Exit(void);
-	string ReadFile(string path);
 	bool getStaticDungeon();
 	bool getTextDungeon();
 	bool getRandomDungeon();

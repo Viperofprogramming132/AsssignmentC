@@ -399,11 +399,6 @@ bool Dungeon::Exit(void)
 //Reads the help file
 string Dungeon::displayHelp(void)
 {
-	return ReadFile("Help.txt");
-}
-
-string Dungeon::ReadFile(string path)
-{
 	string line;
 	string value;
 	ifstream myfile("Help.txt");

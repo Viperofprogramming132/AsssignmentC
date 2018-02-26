@@ -189,7 +189,7 @@ void DungeonController::RandomDungeon(int maxRooms)
 
 	random_device rd;									// only used once to initialise (seed) engine
 	mt19937 rng(rd());									// random-number engine used (Mersenne-Twister in this case)
-	uniform_int_distribution<int> maxRoomsGen(1, 100);
+	uniform_int_distribution<int> maxRoomsGen(10, 100);
 	uniform_int_distribution<int> connectionGen(1, 4);
 	
 
