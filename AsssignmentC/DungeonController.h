@@ -9,4 +9,5 @@ class DungeonController
 	void CreateLinks(string values[9]);
 public:
 	DungeonController();
+	~DungeonController();
 };

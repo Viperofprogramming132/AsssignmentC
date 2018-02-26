@@ -70,6 +70,7 @@ class Dungeon
 	bool m_RandomDungeon = false;
 public:
 	Dungeon(int maxRooms, Player* currentP);
+	~Dungeon();
 	vector<Room*> getRooms(void);
 	bool isComplete(char input);
 	string displayHelp(void);
