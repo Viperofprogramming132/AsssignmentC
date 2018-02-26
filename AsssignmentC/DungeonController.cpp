@@ -3,6 +3,8 @@
 #include <string>
 #include <ctime>
 #include "fstream"
+#include <random>
+#include <chrono>
 
 Player* player = new Player();
 Dungeon* dungeon = new Dungeon(10, player);
@@ -113,7 +115,7 @@ void DungeonController::TextDungeon()
 	string delimiter = ",";
 	int num = 0;
 	myfile.open("Dungeon.txt");
-	dungeon->setMaxRooms(count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 1);
+	dungeon->setMaxRooms((int) count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 1);
 	myfile.close();
 	myfile.open("Dungeon.txt");
 	if (myfile.is_open())
@@ -143,24 +145,47 @@ void DungeonController::RandomDungeon(int maxRooms)
 	
 	int rooms;
 	int roomNum;
-	srand(time(0));
+
+	random_device rd;     // only used once to initialise (seed) engine
+	mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+	uniform_int_distribution<int> maxRoomsGen(1, 10); // guaranteed unbiased
+	uniform_int_distribution<int> connectionGen(1, 4); // guaranteed unbiased
+	
+
+
 	if (maxRooms == -1)
 	{
-		maxRooms = rand() % 50;
+		/*maxRooms = rand() % 50;*/
+
+		maxRooms = maxRoomsGen(rng);
 	}
+	uniform_int_distribution<int> roomConGen(1, maxRooms); // guaranteed unbiased
 	dungeon->setMaxRooms(maxRooms);
 	vector<Room*> allRooms = dungeon->getRooms();
+	
 	for (int i = 0; i < maxRooms;i++)
 	{
-		rooms = rand() % 2;
-		rooms++;
-		for (int j = 0; j < rooms;j++)
+		rooms = connectionGen(rng);
+		if (i < maxRooms-1)
 		{
-			roomNum = rand() % maxRooms;
-
-			allRooms[i]->link(j + 1, *allRooms[roomNum]);
+			for (int j = 0; j < rooms;j++)
+			{
+				roomNum = roomConGen(rng);
+				--roomNum;
+				if (i != roomNum && roomNum > i)
+				{
+					allRooms[i]->link(j + 1, *allRooms[roomNum]);
+					allRooms[roomNum]->link(j + 5, *allRooms[i]);
+				}
+				else
+				{
+					j--;
+				}
+			}
 		}
 	}
+
+	dungeon->setFinish(allRooms.back());
 }
 
 void DungeonController::CreateLinks(string values[9])
