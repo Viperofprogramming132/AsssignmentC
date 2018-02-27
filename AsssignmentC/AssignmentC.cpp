@@ -29,7 +29,7 @@ int main()
 			repeat = false;
 		}
 
-		delete(Dungeon);
+		delete Dungeon;
 		system("CLS");
 	}
 

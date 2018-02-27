@@ -28,10 +28,10 @@ Room::Room(Dungeon* d) : m_Dungeon(d)
 	//Create random
 	random_device rd;									// only used once to initialise (seed) engine
 	mt19937 rng(rd());									// random-number engine used (Mersenne-Twister in this case)
-	uniform_int_distribution<int> maxRoomsGen(1, 100);
+	uniform_int_distribution<int> roomNameGen(0, 99);
 
 	//Create a random to use as the name
-	int random = maxRoomsGen(rng);
+	int random = roomNameGen(rng);
 
 
 	//Generate a random room name
@@ -294,7 +294,7 @@ Dungeon::Dungeon(int maxRooms, Player* currentP) : m_MaxRooms(maxRooms), m_Curre
 Dungeon::~Dungeon()
 {
 	m_Rooms.clear();
-	m_Rooms.resize(0);
+	m_Rooms.resize(1);
 }
 
 //Checks if the dungeon is complete
@@ -312,7 +312,7 @@ bool Dungeon::isComplete(char input)
 	if (m_Finish == m_CurrentPlayer->getLocation())
 	{
 		system("CLS");
-		cout << "Congrats!\nYou found the end!";
+		cout << "Congrats!\nYou found the end!\n";
 		system("PAUSE");
 		m_isComplete = true;
 	}

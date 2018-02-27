@@ -92,6 +92,7 @@ DungeonController::~DungeonController()
 
 void DungeonController::StaticDungeon()
 {
+	dungeon->setMaxRooms(10);
 	vector<Room*> rooms = dungeon->getRooms();
 
 	//Links the rooms for the static system
@@ -154,30 +155,39 @@ void DungeonController::TextDungeon()
 	dungeon->setMaxRooms((int) count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 1);
 	myfile.close();
 
-	//Reopen the file
-	myfile.open("Dungeon.txt");
-	if (myfile.is_open())
+	try
 	{
-		while (getline(myfile, line))
+		//Reopen the file
+		myfile.open("Dungeon.txt");
+		if (myfile.is_open())
 		{
-			//Split the string into the numbers split by the delimiter
-			num = 0;
-			size_t pos = 0;
-			string token;
-			while ((pos = line.find(delimiter)) != string::npos) {
-				token = line.substr(0, pos);
-				value[num] = token;
-				line.erase(0, pos + delimiter.length());
-				num++;
+			while (getline(myfile, line))
+			{
+				//Split the string into the numbers split by the delimiter
+				num = 0;
+				size_t pos = 0;
+				string token;
+				while ((pos = line.find(delimiter)) != string::npos) {
+					token = line.substr(0, pos);
+					value[num] = token;
+					line.erase(0, pos + delimiter.length());
+					num++;
+				}
+
+				//Creates the links in the rooms
+				CreateLinks(value);
 			}
-
-			//Creates the links in the rooms
-			CreateLinks(value);
+			//Closes the files
+			myfile.close();
 		}
-		//Closes the files
-		myfile.close();
 	}
-
+	catch(exception e)
+	{
+		system("CLS");
+		cout << "Error occured: Failed to load file (Incorrect Format?) Exiting Program" << endl;
+		dungeon->ExitProgram();
+		system("pause");
+	}
 	//Sets the finish to the last room
 	dungeon->setFinish(dungeon->getRooms().back());
 }
@@ -200,44 +210,56 @@ void DungeonController::RandomDungeon(int maxRooms)
 	}
 	uniform_int_distribution<int> roomConGen(1, maxRooms);
 
-	//Sets the max Rooms for the vector
-	dungeon->setMaxRooms(maxRooms);
-	vector<Room*> allRooms = dungeon->getRooms();
-	
-	//For each Room generate how many connections it has
-	for (int i = 0; i < maxRooms;i++)
+	try
 	{
-		rooms = connectionGen(rng);
 
-		//Stop it getting stuck in a loop
-		if (i < maxRooms-1)
+
+		//Sets the max Rooms for the vector
+		dungeon->setMaxRooms(maxRooms);
+		vector<Room*> allRooms = dungeon->getRooms();
+
+		//For each Room generate how many connections it has
+		for (int i = 0; i < maxRooms;i++)
 		{
-			//For each link, link a room to another
-			for (int j = 0; j < rooms;j++)
+			rooms = connectionGen(rng);
+
+			//Stop it getting stuck in a loop
+			if (i < maxRooms - 1)
 			{
-
-				//Random for room num
-				roomNum = roomConGen(rng);
-				--roomNum;
-
-
-				//Make sure it is not the same room or one below making sure it always heads forward
-				if (i != roomNum && roomNum > i)
+				//For each link, link a room to another
+				for (int j = 0; j < rooms;j++)
 				{
-					//Link the room and the return
-					allRooms[i]->link(j + 1, *allRooms[roomNum]);
-					allRooms[roomNum]->link(j + 5, *allRooms[i]);
-				}
-				else
-				{
-					j--;
+
+					//Random for room num
+					roomNum = roomConGen(rng);
+					--roomNum;
+
+
+					//Make sure it is not the same room or one below making sure it always heads forward
+					if (i != roomNum && roomNum > i)
+					{
+						//Link the room and the return
+						allRooms[i]->link(j + 1, *allRooms[roomNum]);
+						allRooms[roomNum]->link(j + 5, *allRooms[i]);
+					}
+					else
+					{
+						j--;
+					}
 				}
 			}
 		}
-	}
 
-	//Set the last room as the finish
-	dungeon->setFinish(allRooms.back());
+		//Set the last room as the finish
+		dungeon->setFinish(allRooms.back());
+	}
+	catch (exception e)
+	{
+		system("CLS");
+		cout << "Error occured: Failed to create random dungeon (Unknown Reason Cant recreate) Exiting Program" << endl;
+		dungeon->ExitProgram();
+		system("pause");
+	}
 }
 
 void DungeonController::CreateLinks(string values[9])

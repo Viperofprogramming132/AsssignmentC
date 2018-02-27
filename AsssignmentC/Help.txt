@@ -4,4 +4,16 @@ When the program runs you will be placed in a room.
 To move rooms use the 1-8 keys as shown on the menu.
 Your goal is to find the exit to the maze which is in one of the rooms.
 
+To create a dungeon for yourself you can use the text system.
+
+Simply create a file called "Dungeon.txt" without the quotes
+
+The format of the file is important it goes the room number followed by the 8 connections with a comma seperating each of them and one on the end eg
+
+1,2,-,4,-,-,4,6,2,
+
+The "-" represent blank doors and the others lead to the room given
+
+The Player always starts in the first room given and always ends in the last room
+
 Press Q to quit.
