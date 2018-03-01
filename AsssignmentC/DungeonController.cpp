@@ -1,10 +1,8 @@
 #include "DungeonController.h"
 #include "iostream"
 #include <string>
-#include <ctime>
 #include "fstream"
 #include <random>
-#include <chrono>
 
 //Create the player and the dungeon
 Player* player = new Player();
@@ -56,6 +54,7 @@ DungeonController::DungeonController()
 
 	}
 
+	
 	//Sets the dungeon to the selected type
 	if (dungeon->getStaticDungeon())
 	{

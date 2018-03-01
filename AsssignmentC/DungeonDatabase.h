@@ -28,6 +28,8 @@ class Room
 public:
 	Room(Dungeon* d);
 
+	
+
 	bool viewed;
 
 	bool link(uint8_t dir, Room& room);
@@ -41,6 +43,7 @@ public:
 	Room& dir7(void);
 	Room& dir8(void);
 
+	void InitiateObj();
 	void setName(string name);
 	string getName();
 };

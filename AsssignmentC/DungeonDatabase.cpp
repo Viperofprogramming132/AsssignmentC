@@ -1,5 +1,4 @@
 #include "cstdlib"
-#include "cstring"
 #include "DungeonDatabase.h"
 #include "iostream"
 #include "cstdint"
@@ -20,6 +19,11 @@ Room::Room(Dungeon* d) : m_Dungeon(d)
 	m_dir6 = NULL;
 	m_dir7 = NULL;
 	m_dir8 = NULL;
+	
+}
+
+void Room::InitiateObj()
+{
 	string line;
 
 	//Open the file Room Names
