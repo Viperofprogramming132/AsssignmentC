@@ -476,5 +476,6 @@ void Dungeon::addRoom()
 	for (int i = 0; i < m_MaxRooms;i++)
 	{
 		m_Rooms[i] = new Room(this);
+		m_Rooms[i]->InitiateObj();
 	}
 }
