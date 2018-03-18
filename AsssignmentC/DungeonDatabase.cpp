@@ -1,24 +1,25 @@
-#include "cstdlib"
-#include "DungeonDatabase.h"
-#include "iostream"
-#include "cstdint"
+#include <cstdlib>
+#include <iostream>
+#include <cstdint>
 #include <string>
-#include "fstream"
+#include <fstream>
 #include <random>
+#include "DungeonDatabase.h"
 
 using namespace std;
+using namespace Maze;
 
 Room::Room(Dungeon* d) : m_Dungeon(d)
 {
 	//Set all the directions to NULL to start
-	m_dir1 = NULL;
-	m_dir2 = NULL;
-	m_dir3 = NULL;
-	m_dir4 = NULL;
-	m_dir5 = NULL;
-	m_dir6 = NULL;
-	m_dir7 = NULL;
-	m_dir8 = NULL;
+	m_dir1 = nullptr;
+	m_dir2 = nullptr;
+	m_dir3 = nullptr;
+	m_dir4 = nullptr;
+	m_dir5 = nullptr;
+	m_dir6 = nullptr;
+	m_dir7 = nullptr;
+	m_dir8 = nullptr;
 	
 }
 
@@ -30,8 +31,8 @@ void Room::InitiateObj()
 	ifstream myfile("Room Names.txt");
 
 	//Create random
-	random_device rd;									// only used once to initialise (seed) engine
-	mt19937 rng(rd());									// random-number engine used (Mersenne-Twister in this case)
+	random_device rd;									
+	mt19937 rng(rd());									
 	uniform_int_distribution<int> roomNameGen(0, 99);
 
 	//Create a random to use as the name
@@ -49,7 +50,7 @@ void Room::InitiateObj()
 				setName(line);
 			}
 
-			num++;
+			++num;
 		}
 		myfile.close();
 	}
@@ -100,36 +101,37 @@ bool Room::link(uint8_t dir, Room& room)
 	return complete;
 }
 
+
 //The Following set of functions return the room in the requested direction
-Room& Room::dir1(void)
+Room& Room::dir1(void) const
 {
 	return *m_dir1;
 }
-Room& Room::dir2(void)
+Room& Room::dir2(void) const
 {
 	return *m_dir2;
 }
-Room& Room::dir3(void)
+Room& Room::dir3(void) const
 {
 	return *m_dir3;
 }
-Room& Room::dir4(void)
+Room& Room::dir4(void) const
 {
 	return *m_dir4;
 }
-Room& Room::dir5(void)
+Room& Room::dir5(void) const
 {
 	return *m_dir5;
 }
-Room& Room::dir6(void)
+Room& Room::dir6(void) const
 {
 	return *m_dir6;
 }
-Room& Room::dir7(void)
+Room& Room::dir7(void) const
 {
 	return *m_dir7;
 }
-Room& Room::dir8(void)
+Room& Room::dir8(void) const
 {
 	return *m_dir8;
 }
@@ -169,7 +171,7 @@ string Player::move(char dir)
 	{
 		case '1':
 			//Checks if the direction does not have a room
-			if (&m_Location->dir1() == NULL)
+			if (&m_Location->dir1() == nullptr)
 			{
 				response = "There is nothing in that direction";
 				break;
@@ -180,7 +182,7 @@ string Player::move(char dir)
 			break;
 		case '2':
 			//Checks if the direction does not have a room
-			if (&m_Location->dir2() == NULL)
+			if (&m_Location->dir2() == nullptr)
 			{
 				response = "There is nothing in that direction";
 				break;
@@ -191,7 +193,7 @@ string Player::move(char dir)
 			break;
 		case '3':
 			//Checks if the direction does not have a room
-			if (&m_Location->dir3() == NULL)
+			if (&m_Location->dir3() == nullptr)
 			{
 				response = "There is nothing in that direction";
 				break;
@@ -202,7 +204,7 @@ string Player::move(char dir)
 			break;
 		case '4':
 			//Checks if the direction does not have a room
-			if (&m_Location->dir4() == NULL)
+			if (&m_Location->dir4() == nullptr)
 			{
 				response = "There is nothing in that direction";
 				break;
@@ -213,7 +215,7 @@ string Player::move(char dir)
 			break;
 		case '5':
 			//Checks if the direction does not have a room
-			if (&m_Location->dir5() == NULL)
+			if (&m_Location->dir5() == nullptr)
 			{
 				response = "There is nothing in that direction";
 				break;
@@ -224,7 +226,7 @@ string Player::move(char dir)
 			break;
 		case '6':
 			//Checks if the direction does not have a room
-			if (&m_Location->dir6() == NULL)
+			if (&m_Location->dir6() == nullptr)
 			{
 				response = "There is nothing in that direction";
 				break;
@@ -235,7 +237,7 @@ string Player::move(char dir)
 			break;
 		case '7':
 			//Checks if the direction does not have a room
-			if (&m_Location->dir7() == NULL)
+			if (&m_Location->dir7() == nullptr)
 			{
 				response = "There is nothing in that direction";
 				break;
@@ -246,7 +248,7 @@ string Player::move(char dir)
 			break;
 		case '8':
 			//Checks if the direction does not have a room
-			if (&m_Location->dir8() == NULL)
+			if (&m_Location->dir8() == nullptr)
 			{
 				response = "There is nothing in that direction";
 				break;
@@ -330,49 +332,49 @@ string Dungeon::displayMenu(char input)
 	string output;
 	string moveOut = m_CurrentPlayer->move(input);
 	output.append("1: Head North \t\t\t");
-	if (&m_CurrentPlayer->getLocation()->dir1() != NULL)
+	if (&m_CurrentPlayer->getLocation()->dir1() != nullptr)
 	{
 		output.append(m_CurrentPlayer->getLocation()->dir1().getName());
 	}
 
 	output.append("\n2: Head North East \t\t");
-	if (&m_CurrentPlayer->getLocation()->dir2() != NULL)
+	if (&m_CurrentPlayer->getLocation()->dir2() != nullptr)
 	{
 		output.append(m_CurrentPlayer->getLocation()->dir2().getName());
 	}
 
 	output.append("\n3: Head East \t\t\t");
-	if (&m_CurrentPlayer->getLocation()->dir3() != NULL)
+	if (&m_CurrentPlayer->getLocation()->dir3() != nullptr)
 	{
 		output.append(m_CurrentPlayer->getLocation()->dir3().getName());
 	}
 
 	output.append("\n4: Head South East \t\t");
-	if (&m_CurrentPlayer->getLocation()->dir4() != NULL)
+	if (&m_CurrentPlayer->getLocation()->dir4() != nullptr)
 	{
 		output.append(m_CurrentPlayer->getLocation()->dir4().getName());
 	}
 
 	output.append("\n5: Head South \t\t\t");
-	if (&m_CurrentPlayer->getLocation()->dir5() != NULL)
+	if (&m_CurrentPlayer->getLocation()->dir5() != nullptr)
 	{
 		output.append(m_CurrentPlayer->getLocation()->dir5().getName());
 	}
 
 	output.append("\n6: Head South West \t\t");
-	if (&m_CurrentPlayer->getLocation()->dir6() != NULL)
+	if (&m_CurrentPlayer->getLocation()->dir6() != nullptr)
 	{
 		output.append(m_CurrentPlayer->getLocation()->dir6().getName());
 	}
 
 	output.append("\n7: Head West \t\t\t");
-	if (&m_CurrentPlayer->getLocation()->dir7() != NULL)
+	if (&m_CurrentPlayer->getLocation()->dir7() != nullptr)
 	{
 		output.append(m_CurrentPlayer->getLocation()->dir7().getName());
 	}
 
 	output.append("\n8: Head North West \t\t");
-	if (&m_CurrentPlayer->getLocation()->dir8() != NULL)
+	if (&m_CurrentPlayer->getLocation()->dir8() != nullptr)
 	{
 		output.append(m_CurrentPlayer->getLocation()->dir8().getName());
 	}
@@ -473,7 +475,7 @@ void Dungeon::setMaxRooms(int maxRooms)
 //Creates a room
 void Dungeon::addRoom()
 {
-	for (int i = 0; i < m_MaxRooms;i++)
+	for (int i = 0; i < m_MaxRooms;++i)
 	{
 		m_Rooms[i] = new Room(this);
 		m_Rooms[i]->InitiateObj();

@@ -4,6 +4,7 @@
 #include "cstdlib"
 #include "DungeonController.h"
 
+//Thanks to https://gist.github.com/lefticus/10191322 for the code standards
 
 int main()
 {

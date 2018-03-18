@@ -1,14 +1,16 @@
-#include "DungeonController.h"
-#include "iostream"
+#include <iostream>
 #include <string>
-#include "fstream"
+#include <fstream>
 #include <random>
-
-//Create the player and the dungeon
-Player* player = new Player();
-Dungeon* dungeon = new Dungeon(10, player);
+#include "DungeonController.h"
 
 using namespace std;
+using namespace Maze;
+
+//Create the player and the dungeon
+//shared_ptr<Player> player = make_shared<Player>();
+Player* player = new Player();
+Dungeon* dungeon = new Dungeon(10, player);
 
 
 
@@ -170,7 +172,7 @@ void DungeonController::TextDungeon()
 					token = line.substr(0, pos);
 					value[num] = token;
 					line.erase(0, pos + delimiter.length());
-					num++;
+					++num;
 				}
 
 				//Creates the links in the rooms
@@ -183,7 +185,7 @@ void DungeonController::TextDungeon()
 	catch(exception e)
 	{
 		system("CLS");
-		cout << "Error occured: Failed to load file (Incorrect Format?) Exiting Program" << endl;
+		cout << "Error occurred: Failed to load file (Incorrect Format?) Exiting Program" << endl;
 		dungeon->ExitProgram();
 		system("pause");
 	}
@@ -196,8 +198,8 @@ void DungeonController::RandomDungeon(int maxRooms)
 	int rooms;
 	int roomNum;
 
-	random_device rd;									// only used once to initialise (seed) engine
-	mt19937 rng(rd());									// random-number engine used (Mersenne-Twister in this case)
+	random_device rd;									
+	mt19937 rng(rd());									
 	uniform_int_distribution<int> maxRoomsGen(10, 100);
 	uniform_int_distribution<int> connectionGen(1, 4);
 	
@@ -218,7 +220,7 @@ void DungeonController::RandomDungeon(int maxRooms)
 		vector<Room*> allRooms = dungeon->getRooms();
 
 		//For each Room generate how many connections it has
-		for (int i = 0; i < maxRooms;i++)
+		for (int i = 0; i < maxRooms;++i)
 		{
 			rooms = connectionGen(rng);
 
@@ -226,7 +228,7 @@ void DungeonController::RandomDungeon(int maxRooms)
 			if (i < maxRooms - 1)
 			{
 				//For each link, link a room to another
-				for (int j = 0; j < rooms;j++)
+				for (int j = 0; j < rooms;++j)
 				{
 
 					//Random for room num
@@ -255,19 +257,19 @@ void DungeonController::RandomDungeon(int maxRooms)
 	catch (exception e)
 	{
 		system("CLS");
-		cout << "Error occured: Failed to create random dungeon (Unknown Reason Cant recreate) Exiting Program" << endl;
+		cout << "Error occurred: Failed to create random dungeon (Unknown Reason Cant recreate) Exiting Program" << endl;
 		dungeon->ExitProgram();
 		system("pause");
 	}
 }
 
-void DungeonController::CreateLinks(string values[9])
+void DungeonController::CreateLinks(const string values[9])
 {
 	int roomNum = stoi(values[0]);
 	vector<Room*> rooms = dungeon->getRooms();
 
 	//For each room create the link read from file
-	for (int i = 1; i < 9; i++)
+	for (int i = 1; i < 9; ++i)
 	{
 		//Check if there is no link
 		if (values[i] != "-")
