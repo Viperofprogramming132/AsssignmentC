@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Controllers::DungeonController">
-    <Position X="5.5" Y="0.75" Width="1.5" />
+    <Position X="4.75" Y="1" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAgAAAEAAADAAAgAAAAAAAAACAAAII=</HashCode>
       <FileName>DungeonController.h</FileName>
@@ -15,7 +15,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Maze::Dungeon">
-    <Position X="7.25" Y="0.75" Width="1.5" />
+    <Position X="7.25" Y="0.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>BAAEGAQAAMAAgKAAQIAAAAgAQAAQAAAgIAIgAAmAAHA=</HashCode>
       <FileName>DungeonDatabase.h</FileName>
