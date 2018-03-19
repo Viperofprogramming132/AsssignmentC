@@ -96,9 +96,4 @@ namespace Maze
 		void addRoom(void);
 		string displayMenu(char t_input);
 	};
-
-	class Item
-	{
-
-	};
 }

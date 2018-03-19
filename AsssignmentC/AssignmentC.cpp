@@ -8,7 +8,7 @@
 
 int main()
 {
-	DungeonController* Dungeon = new DungeonController();
+	Controllers::DungeonController* Dungeon = new Controllers::DungeonController();
 	Dungeon->Run();
 
 	return 0;

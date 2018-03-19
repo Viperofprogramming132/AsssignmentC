@@ -6,12 +6,13 @@
 
 using namespace std;
 using namespace Maze;
+using namespace Controllers;
 
 
 DungeonController::DungeonController()
 {
 	m_player = new Player();
-	m_dungeon = new Dungeon(10, m_player);
+	m_Dungeon = new Dungeon(10, m_player);
 }
 
 void DungeonController::Run(void)
@@ -29,18 +30,18 @@ void DungeonController::Run(void)
 		switch (response)
 		{
 		case 1:
-			m_dungeon->setStaticDun();
+			m_Dungeon->setStaticDun();
 			good = true;
 			break;
 		case 2:
-			m_dungeon->setTextDun();
+			m_Dungeon->setTextDun();
 			good = true;
 			break;
 		case 3:
 			cout << "How many rooms do you want in the dungeon or -1 for random: ";
 			cin >> response;
 			system("CLS");
-			m_dungeon->setRanDun();
+			m_Dungeon->setRanDun();
 			good = true;
 			break;
 		default:
@@ -58,15 +59,15 @@ void DungeonController::Run(void)
 
 
 	//Sets the dungeon to the selected type
-	if (m_dungeon->getStaticDungeon())
+	if (m_Dungeon->getStaticDungeon())
 	{
 		StaticDungeon();
 	}
-	else if (m_dungeon->getTextDungeon())
+	else if (m_Dungeon->getTextDungeon())
 	{
 		TextDungeon();
 	}
-	else if (m_dungeon->getRandomDungeon())
+	else if (m_Dungeon->getRandomDungeon())
 	{
 		RandomDungeon(response);
 	}
@@ -74,10 +75,10 @@ void DungeonController::Run(void)
 
 	char input = 'y';
 
-	m_player->setLocation(m_dungeon->getRooms()[0]);
+	m_player->setLocation(m_Dungeon->getRooms()[0]);
 
 	//Loop till close or done
-	while (!m_dungeon->isComplete(input) && !m_dungeon->Exit())
+	while (!m_Dungeon->isComplete(input) && !m_Dungeon->Exit())
 	{
 		cin >> input;
 	}
@@ -87,14 +88,14 @@ void DungeonController::Run(void)
 DungeonController::~DungeonController()
 {
 	delete(m_player);
-	delete(m_dungeon);
+	delete(m_Dungeon);
 }
 
 
 void DungeonController::StaticDungeon()
 {
-	m_dungeon->setMaxRooms(10);
-	vector<Room*> rooms = m_dungeon->getRooms();
+	m_Dungeon->setMaxRooms(10);
+	vector<Room*> rooms = m_Dungeon->getRooms();
 
 	//Links the rooms for the static system
 
@@ -135,7 +136,7 @@ void DungeonController::StaticDungeon()
 	rooms[9]->link(8, *rooms[8]);
 
 
-	m_dungeon->setFinish(rooms[9]);
+	m_Dungeon->setFinish(rooms[9]);
 }
 
 void DungeonController::TextDungeon()
@@ -153,7 +154,7 @@ void DungeonController::TextDungeon()
 
 	//Open to count the amount of lines it has
 	myfile.open("Dungeon.txt");
-	m_dungeon->setMaxRooms((int) count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 1);
+	m_Dungeon->setMaxRooms((int) count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 1);
 	myfile.close();
 
 	try
@@ -186,11 +187,11 @@ void DungeonController::TextDungeon()
 	{
 		system("CLS");
 		cout << "Error occurred: Failed to load file (Incorrect Format?) Exiting Program" << endl;
-		m_dungeon->ExitProgram();
+		m_Dungeon->ExitProgram();
 		system("pause");
 	}
 	//Sets the finish to the last room
-	m_dungeon->setFinish(m_dungeon->getRooms().back());
+	m_Dungeon->setFinish(m_Dungeon->getRooms().back());
 }
 
 void DungeonController::RandomDungeon(int t_maxRooms)
@@ -216,8 +217,8 @@ void DungeonController::RandomDungeon(int t_maxRooms)
 
 
 		//Sets the max Rooms for the vector
-		m_dungeon->setMaxRooms(t_maxRooms);
-		vector<Room*> allRooms = m_dungeon->getRooms();
+		m_Dungeon->setMaxRooms(t_maxRooms);
+		vector<Room*> allRooms = m_Dungeon->getRooms();
 
 		//For each Room generate how many connections it has
 		for (int i = 0; i < t_maxRooms;++i)
@@ -252,13 +253,13 @@ void DungeonController::RandomDungeon(int t_maxRooms)
 		}
 
 		//Set the last room as the finish
-		m_dungeon->setFinish(allRooms.back());
+		m_Dungeon->setFinish(allRooms.back());
 	}
 	catch (exception e)
 	{
 		system("CLS");
 		cout << "Error occurred: Failed to create random dungeon (Unknown Reason Cant recreate) Exiting Program" << endl;
-		m_dungeon->ExitProgram();
+		m_Dungeon->ExitProgram();
 		system("pause");
 	}
 }
@@ -266,7 +267,7 @@ void DungeonController::RandomDungeon(int t_maxRooms)
 void DungeonController::CreateLinks(const string t_values[9])
 {
 	int roomNum = stoi(t_values[0]);
-	vector<Room*> rooms = m_dungeon->getRooms();
+	vector<Room*> rooms = m_Dungeon->getRooms();
 
 	//For each room create the link read from file
 	for (int i = 1; i < 9; ++i)
