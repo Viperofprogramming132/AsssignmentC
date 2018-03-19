@@ -9,7 +9,7 @@
 using namespace std;
 using namespace Maze;
 
-Room::Room(Dungeon* d) : m_Dungeon(d)
+Room::Room(Dungeon* t_d) : m_Dungeon(t_d)
 {
 	//Set all the directions to NULL to start
 	m_dir1 = nullptr;
@@ -57,43 +57,43 @@ void Room::InitiateObj()
 }
 
 //Sets the room in the given direction
-bool Room::link(uint8_t dir, Room& room)
+bool Room::link(uint8_t t_dir, Room& t_room)
 {
 	//Check if it is complete
 	bool complete = false;
 
-	switch (dir)
+	switch (t_dir)
 	{
 		case 1:
-			m_dir1 = &room;
+			m_dir1 = &t_room;
 			complete = true;
 			break;
 		case 2:
-			m_dir2 = &room;
+			m_dir2 = &t_room;
 			complete = true;
 			break;
 		case 3:
-			m_dir3 = &room;
+			m_dir3 = &t_room;
 			complete = true;
 			break;
 		case 4:
-			m_dir4 = &room;
+			m_dir4 = &t_room;
 			complete = true;
 			break;
 		case 5:
-			m_dir5 = &room;
+			m_dir5 = &t_room;
 			complete = true;
 			break;
 		case 6:
-			m_dir6 = &room;
+			m_dir6 = &t_room;
 			complete = true;
 			break;
 		case 7:
-			m_dir7 = &room;
+			m_dir7 = &t_room;
 			complete = true;
 			break;
 		case 8:
-			m_dir8 = &room;
+			m_dir8 = &t_room;
 			complete = true;
 			break;
 	}
@@ -137,9 +137,9 @@ Room& Room::dir8(void) const
 }
 
 //Sets the name of the room
-void Room::setName(string newName)
+void Room::setName(string t_newName)
 {
-	m_Name = newName;
+	m_Name = t_newName;
 }
 
 //Gets the name of the room
@@ -149,7 +149,7 @@ string Room::getName(void)
 }
 
 //Constructor for the player
-Player::Player(Room* start) : m_Location(start)
+Player::Player(Room* t_start) : m_Location(t_start)
 {
 
 }
@@ -162,12 +162,12 @@ Room* Player::getLocation()
 
 
 //Moves the player to another room
-string Player::move(char dir)
+string Player::move(char t_dir)
 {
 	string response = "";
 
 
-	switch (dir)
+	switch (t_dir)
 	{
 		case '1':
 			//Checks if the direction does not have a room
@@ -277,19 +277,19 @@ string Player::move(char dir)
 }
 
 //Sets the location of the player
-void Player::setLocation(Room* room)
+void Player::setLocation(Room* t_room)
 {
-	m_Location = room;
+	m_Location = t_room;
 }
 
 //Sets the association with the player to the dungeon
-void Player::setDungeon(Dungeon* d)
+void Player::setDungeon(Dungeon* t_d)
 {
-	m_Dungeon = d;
+	m_Dungeon = t_d;
 }
 
 //Constructor for the dungeon taking the maximum rooms and the player that has been made
-Dungeon::Dungeon(int maxRooms, Player* currentP) : m_MaxRooms(maxRooms), m_CurrentPlayer(currentP)
+Dungeon::Dungeon(int t_maxRooms, Player* t_currentP) : m_MaxRooms(t_maxRooms), m_CurrentPlayer(t_currentP)
 {
 	m_Rooms.resize(m_MaxRooms);
 	m_CurrentPlayer->setDungeon(this);
@@ -304,14 +304,14 @@ Dungeon::~Dungeon()
 }
 
 //Checks if the dungeon is complete
-bool Dungeon::isComplete(char input)
+bool Dungeon::isComplete(char t_input)
 {
 	//Calls the move to allow the player to move
 	if (m_Finish != m_CurrentPlayer->getLocation())
 	{
 		m_isComplete = false;
 		system("CLS");
-		cout << displayMenu(input) << endl;
+		cout << displayMenu(t_input) << endl;
 		
 	}
 	//Checks if the end is reached
@@ -327,10 +327,10 @@ bool Dungeon::isComplete(char input)
 }
 
 //Writes out the menu showing what is in each direction
-string Dungeon::displayMenu(char input)
+string Dungeon::displayMenu(char t_input)
 {
 	string output;
-	string moveOut = m_CurrentPlayer->move(input);
+	string moveOut = m_CurrentPlayer->move(t_input);
 	output.append("1: Head North \t\t\t");
 	if (&m_CurrentPlayer->getLocation()->dir1() != nullptr)
 	{
@@ -437,9 +437,9 @@ bool Dungeon::getRandomDungeon()
 }
 
 //Sets the exit to the given room
-void Dungeon::setFinish(Room * finish)
+void Dungeon::setFinish(Room * t_finish)
 {
-	m_Finish = finish;
+	m_Finish = t_finish;
 }
 
 //The following set the dungeon type
@@ -465,9 +465,9 @@ void Dungeon::setRanDun()
 }
 
 //Sets the max rooms for the vector and generator the rooms 
-void Dungeon::setMaxRooms(int maxRooms)
+void Dungeon::setMaxRooms(int t_maxRooms)
 {
-	m_MaxRooms = maxRooms;
+	m_MaxRooms = t_maxRooms;
 	m_Rooms.resize(m_MaxRooms);
 	addRoom();
 }

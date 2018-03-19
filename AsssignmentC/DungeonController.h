@@ -3,11 +3,14 @@
 
 class DungeonController
 {
-	void StaticDungeon();
-	void TextDungeon();
-	void RandomDungeon(int maxRooms);
-	void CreateLinks(const string values[9]);
+	Player* m_player;
+	Dungeon* m_dungeon;
+	void StaticDungeon(void);
+	void TextDungeon(void);
+	void RandomDungeon(int t_maxRooms);
+	void CreateLinks(const string t_values[9]);
 public:
-	DungeonController();
-	~DungeonController();
+	DungeonController(void);
+	void Run(void);
+	~DungeonController(void);
 };

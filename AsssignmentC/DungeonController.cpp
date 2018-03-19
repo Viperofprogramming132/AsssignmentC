@@ -7,47 +7,47 @@
 using namespace std;
 using namespace Maze;
 
-//Create the player and the dungeon
-//shared_ptr<Player> player = make_shared<Player>();
-Player* player = new Player();
-Dungeon* dungeon = new Dungeon(10, player);
-
-
 
 DungeonController::DungeonController()
+{
+	m_player = new Player();
+	m_dungeon = new Dungeon(10, m_player);
+}
+
+void DungeonController::Run(void)
 {
 	//Used to check if the input is good
 	bool good = false;
 	int response;
-	
+
 	while (!good)
 	{
 		cout << "Please Select a way to run the dungeon:\n1: Hard Coded\n2: Text File\n3: Random" << endl;
 		cin >> response;
 
-		
+
 		switch (response)
 		{
-			case 1:
-				dungeon->setStaticDun();
-				good = true;
-				break;
-			case 2:
-				dungeon->setTextDun();
-				good = true;
-				break;
-			case 3:
-				cout << "How many rooms do you want in the dungeon or -1 for random: ";
-				cin >> response;
-				system("CLS");
-				dungeon->setRanDun();
-				good = true;
-				break;
-			default:
-				cout << "Please Only enter 1, 2 or 3" << endl;
-				system("pause");
-				system("CLS");
-				break;
+		case 1:
+			m_dungeon->setStaticDun();
+			good = true;
+			break;
+		case 2:
+			m_dungeon->setTextDun();
+			good = true;
+			break;
+		case 3:
+			cout << "How many rooms do you want in the dungeon or -1 for random: ";
+			cin >> response;
+			system("CLS");
+			m_dungeon->setRanDun();
+			good = true;
+			break;
+		default:
+			cout << "Please Only enter 1, 2 or 3" << endl;
+			system("pause");
+			system("CLS");
+			break;
 		}
 
 		//Clears the input as you need to when working with ints
@@ -56,17 +56,17 @@ DungeonController::DungeonController()
 
 	}
 
-	
+
 	//Sets the dungeon to the selected type
-	if (dungeon->getStaticDungeon())
+	if (m_dungeon->getStaticDungeon())
 	{
 		StaticDungeon();
 	}
-	else if (dungeon->getTextDungeon())
+	else if (m_dungeon->getTextDungeon())
 	{
 		TextDungeon();
 	}
-	else if (dungeon->getRandomDungeon())
+	else if (m_dungeon->getRandomDungeon())
 	{
 		RandomDungeon(response);
 	}
@@ -74,10 +74,10 @@ DungeonController::DungeonController()
 
 	char input = 'y';
 
-	player->setLocation(dungeon->getRooms()[0]);
+	m_player->setLocation(m_dungeon->getRooms()[0]);
 
 	//Loop till close or done
-	while (!dungeon->isComplete(input) && !dungeon->Exit())
+	while (!m_dungeon->isComplete(input) && !m_dungeon->Exit())
 	{
 		cin >> input;
 	}
@@ -86,15 +86,15 @@ DungeonController::DungeonController()
 //Destructor to delete the player and dungeon
 DungeonController::~DungeonController()
 {
-	delete(player);
-	delete(dungeon);
+	delete(m_player);
+	delete(m_dungeon);
 }
 
 
 void DungeonController::StaticDungeon()
 {
-	dungeon->setMaxRooms(10);
-	vector<Room*> rooms = dungeon->getRooms();
+	m_dungeon->setMaxRooms(10);
+	vector<Room*> rooms = m_dungeon->getRooms();
 
 	//Links the rooms for the static system
 
@@ -135,7 +135,7 @@ void DungeonController::StaticDungeon()
 	rooms[9]->link(8, *rooms[8]);
 
 
-	dungeon->setFinish(rooms[9]);
+	m_dungeon->setFinish(rooms[9]);
 }
 
 void DungeonController::TextDungeon()
@@ -146,14 +146,14 @@ void DungeonController::TextDungeon()
 	string line;
 	string value[9];
 
-	//Set the seperator for the text file
+	//Set the separator for the text file
 	string delimiter = ",";
 
 	int num = 0;
 
 	//Open to count the amount of lines it has
 	myfile.open("Dungeon.txt");
-	dungeon->setMaxRooms((int) count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 1);
+	m_dungeon->setMaxRooms((int) count(istreambuf_iterator<char>(myfile), istreambuf_iterator<char>(), '\n') + 1);
 	myfile.close();
 
 	try
@@ -186,14 +186,14 @@ void DungeonController::TextDungeon()
 	{
 		system("CLS");
 		cout << "Error occurred: Failed to load file (Incorrect Format?) Exiting Program" << endl;
-		dungeon->ExitProgram();
+		m_dungeon->ExitProgram();
 		system("pause");
 	}
 	//Sets the finish to the last room
-	dungeon->setFinish(dungeon->getRooms().back());
+	m_dungeon->setFinish(m_dungeon->getRooms().back());
 }
 
-void DungeonController::RandomDungeon(int maxRooms)
+void DungeonController::RandomDungeon(int t_maxRooms)
 {
 	int rooms;
 	int roomNum;
@@ -205,27 +205,27 @@ void DungeonController::RandomDungeon(int maxRooms)
 	
 
 	//Check if needs random rooms
-	if (maxRooms == -1)
+	if (t_maxRooms == -1)
 	{
-		maxRooms = maxRoomsGen(rng);
+		t_maxRooms = maxRoomsGen(rng);
 	}
-	uniform_int_distribution<int> roomConGen(1, maxRooms);
+	uniform_int_distribution<int> roomConGen(1, t_maxRooms);
 
 	try
 	{
 
 
 		//Sets the max Rooms for the vector
-		dungeon->setMaxRooms(maxRooms);
-		vector<Room*> allRooms = dungeon->getRooms();
+		m_dungeon->setMaxRooms(t_maxRooms);
+		vector<Room*> allRooms = m_dungeon->getRooms();
 
 		//For each Room generate how many connections it has
-		for (int i = 0; i < maxRooms;++i)
+		for (int i = 0; i < t_maxRooms;++i)
 		{
 			rooms = connectionGen(rng);
 
 			//Stop it getting stuck in a loop
-			if (i < maxRooms - 1)
+			if (i < t_maxRooms - 1)
 			{
 				//For each link, link a room to another
 				for (int j = 0; j < rooms;++j)
@@ -252,30 +252,30 @@ void DungeonController::RandomDungeon(int maxRooms)
 		}
 
 		//Set the last room as the finish
-		dungeon->setFinish(allRooms.back());
+		m_dungeon->setFinish(allRooms.back());
 	}
 	catch (exception e)
 	{
 		system("CLS");
 		cout << "Error occurred: Failed to create random dungeon (Unknown Reason Cant recreate) Exiting Program" << endl;
-		dungeon->ExitProgram();
+		m_dungeon->ExitProgram();
 		system("pause");
 	}
 }
 
-void DungeonController::CreateLinks(const string values[9])
+void DungeonController::CreateLinks(const string t_values[9])
 {
-	int roomNum = stoi(values[0]);
-	vector<Room*> rooms = dungeon->getRooms();
+	int roomNum = stoi(t_values[0]);
+	vector<Room*> rooms = m_dungeon->getRooms();
 
 	//For each room create the link read from file
 	for (int i = 1; i < 9; ++i)
 	{
 		//Check if there is no link
-		if (values[i] != "-")
+		if (t_values[i] != "-")
 		{
 			//Create link
-			rooms[roomNum - 1]->link(i, *rooms[stoi(values[i])-1]);
+			rooms[roomNum - 1]->link(i, *rooms[stoi(t_values[i])-1]);
 		}
 	}
 }

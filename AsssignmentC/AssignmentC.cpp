@@ -9,6 +9,7 @@
 int main()
 {
 	DungeonController* Dungeon = new DungeonController();
+	Dungeon->Run();
 
 	return 0;
 }

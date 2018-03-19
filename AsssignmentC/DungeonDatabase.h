@@ -1,9 +1,9 @@
 #pragma once
 
-#include "cstdlib"
-#include "cstring"
-#include "cstdint"
-#include "iostream"
+#include <cstdlib>
+#include <cstring>
+#include <cstdint>
+#include <iostream>
 #include <vector>
 
 using namespace std;
@@ -32,13 +32,13 @@ namespace Maze
 		Room* m_dir7;
 		Room* m_dir8;
 	public:
-		Room(Dungeon* d);
+		Room(Dungeon* t_d);
 
 
 
 		bool viewed;
 
-		bool link(uint8_t dir, Room& room);
+		bool link(uint8_t t_dir, Room& t_room);
 
 		Room& dir1(void) const;
 		Room& dir2(void) const;
@@ -49,9 +49,9 @@ namespace Maze
 		Room& dir7(void) const;
 		Room& dir8(void) const;
 
-		void InitiateObj();
-		void setName(string name);
-		string getName();
+		void InitiateObj(void);
+		void setName(string t_name);
+		string getName(void);
 	};
 
 	class Player
@@ -60,10 +60,10 @@ namespace Maze
 		Dungeon* m_Dungeon;
 	public:
 		Player(Room* start = nullptr);
-		void setDungeon(Dungeon* d);
-		Room* getLocation();
-		void setLocation(Room*);
-		string move(char dir);
+		void setDungeon(Dungeon* t_d);
+		Room* getLocation(void);
+		void setLocation(Room* t_Room);
+		string move(char t_dir);
 	};
 
 	class Dungeon
@@ -78,23 +78,23 @@ namespace Maze
 		bool m_TextDungeon = false;
 		bool m_RandomDungeon = false;
 	public:
-		Dungeon(int maxRooms, Player* currentP);
-		~Dungeon();
+		Dungeon(int t_maxRooms, Player* t_currentP);
+		~Dungeon(void);
 		vector<Room*> getRooms(void);
-		bool isComplete(char input);
+		bool isComplete(char t_input);
 		string displayHelp(void);
 		void ExitProgram(void);
 		bool Exit(void);
-		bool getStaticDungeon();
-		bool getTextDungeon();
-		bool getRandomDungeon();
-		void setFinish(Room* finish);
-		void setStaticDun();
-		void setTextDun();
-		void setRanDun();
-		void setMaxRooms(int maxRooms);
-		void addRoom();
-		string displayMenu(char input);
+		bool getStaticDungeon(void);
+		bool getTextDungeon(void);
+		bool getRandomDungeon(void);
+		void setFinish(Room* t_finish);
+		void setStaticDun(void);
+		void setTextDun(void);
+		void setRanDun(void);
+		void setMaxRooms(int t_maxRooms);
+		void addRoom(void);
+		string displayMenu(char t_input);
 	};
 
 	class Item
