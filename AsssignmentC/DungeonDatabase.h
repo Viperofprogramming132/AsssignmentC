@@ -12,6 +12,7 @@ using namespace std;
 namespace Maze
 {
 	class Room;
+	class SpecialRoom;
 	class Dungeon;
 	class Player;
 	class Item;
@@ -19,6 +20,7 @@ namespace Maze
 
 	class Room
 	{
+	protected:
 		string m_Name;
 
 		Dungeon* m_Dungeon;
@@ -50,6 +52,7 @@ namespace Maze
 		void InitiateObj(void);
 		void setName(string t_name);
 		string getName(void);
+		bool checkExit(void);
 		virtual Room* teleport(void);
 	};
 
@@ -58,7 +61,7 @@ namespace Maze
 		Room* m_RandomRoom;
 	public:
 		SpecialRoom(Dungeon* t_d, int t_MaxRooms);
-		Room* teleport(void);
+		Room* teleport(void) override;
 	};
 
 	class Player

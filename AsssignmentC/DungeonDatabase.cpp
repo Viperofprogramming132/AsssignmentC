@@ -153,6 +153,25 @@ Room* Room::teleport(void)
 	return nullptr;
 }
 
+bool Maze::Room::checkExit(void)
+{
+	if (m_dir1 == nullptr
+		&& m_dir2 == nullptr
+		&& m_dir3 == nullptr
+		&& m_dir4 == nullptr
+		&& m_dir5 == nullptr
+		&& m_dir6 == nullptr
+		&& m_dir7 == nullptr
+		&& m_dir8 == nullptr)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 //Constructor for the player
 Player::Player(Room* t_start) : m_Location(t_start)
 {
@@ -284,7 +303,7 @@ string Player::move(char t_dir)
 		if (r != nullptr)
 		{
 			setLocation(r);
-			return "You seemed to apper in a differnet room to where you went";
+			return "You seemed to appear in a different room to where you went";
 		}
 	}
 
@@ -501,11 +520,19 @@ SpecialRoom::SpecialRoom(Dungeon * t_d, int t_MaxRooms) : Room(t_d)
 {
 	random_device rd;
 	mt19937 rng(rd());
-	uniform_int_distribution<int> maxRoomsGen(1, t_MaxRooms);
+	uniform_int_distribution<int> maxRoomsGen(0, t_MaxRooms-1);
 
 	vector<Room*> rooms = t_d->getRooms();
-
-	m_RandomRoom = rooms[maxRoomsGen(rng)];
+	bool goodRoom = false;
+	while (!goodRoom)
+	{
+		int ran = maxRoomsGen(rng);
+		if ((rooms[ran] != this) && rooms[ran]->checkExit())
+		{
+			m_RandomRoom = rooms[ran];
+			goodRoom = true;
+		}
+	}
 }
 
 Room* SpecialRoom::teleport(void)

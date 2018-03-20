@@ -96,8 +96,7 @@ void DungeonController::StaticDungeon()
 {
 	m_Dungeon->setMaxRooms(10);
 	vector<Room*> rooms = m_Dungeon->getRooms();
-	rooms[3] = new SpecialRoom(m_Dungeon, 10);
-	rooms[3]->InitiateObj();
+
 	//Links the rooms for the static system
 
 	//Room 1
@@ -107,10 +106,6 @@ void DungeonController::StaticDungeon()
 	//Room 2
 	rooms[1]->link(2, *rooms[2]);
 	rooms[2]->link(6, *rooms[1]);
-
-	//Room 3
-	rooms[1]->link(3, *rooms[3]);
-	rooms[3]->link(7, *rooms[1]);
 
 	//Room 4
 	rooms[1]->link(4, *rooms[4]);
@@ -136,6 +131,14 @@ void DungeonController::StaticDungeon()
 	rooms[8]->link(4, *rooms[9]);
 	rooms[9]->link(8, *rooms[8]);
 
+
+	rooms[3] = new SpecialRoom(m_Dungeon, 10);
+	rooms[3]->InitiateObj();
+
+
+	//Room 3
+	rooms[1]->link(3, *rooms[3]);
+	rooms[3]->link(7, *rooms[1]);
 
 	m_Dungeon->setFinish(rooms[9]);
 }
