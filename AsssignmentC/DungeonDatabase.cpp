@@ -148,6 +148,11 @@ string Room::getName(void)
 	return m_Name;
 }
 
+Room* Room::teleport(void)
+{
+	return nullptr;
+}
+
 //Constructor for the player
 Player::Player(Room* t_start) : m_Location(t_start)
 {
@@ -271,6 +276,16 @@ string Player::move(char t_dir)
 			break;
 		default:
 			break;
+	}
+
+	if (typeid(*m_Location) == typeid(SpecialRoom))
+	{
+		Room* r = m_Location->teleport();
+		if (r != nullptr)
+		{
+			setLocation(r);
+			return "You seemed to apper in a differnet room to where you went";
+		}
 	}
 
 	return response;
@@ -480,4 +495,20 @@ void Dungeon::addRoom()
 		m_Rooms[i] = new Room(this);
 		m_Rooms[i]->InitiateObj();
 	}
+}
+
+SpecialRoom::SpecialRoom(Dungeon * t_d, int t_MaxRooms) : Room(t_d)
+{
+	random_device rd;
+	mt19937 rng(rd());
+	uniform_int_distribution<int> maxRoomsGen(1, t_MaxRooms);
+
+	vector<Room*> rooms = t_d->getRooms();
+
+	m_RandomRoom = rooms[maxRoomsGen(rng)];
+}
+
+Room* SpecialRoom::teleport(void)
+{
+	return m_RandomRoom;
 }

@@ -31,12 +31,10 @@ namespace Maze
 		Room* m_dir6;
 		Room* m_dir7;
 		Room* m_dir8;
+
+		
 	public:
 		Room(Dungeon* t_d);
-
-
-
-		bool viewed;
 
 		bool link(uint8_t t_dir, Room& t_room);
 
@@ -52,6 +50,15 @@ namespace Maze
 		void InitiateObj(void);
 		void setName(string t_name);
 		string getName(void);
+		virtual Room* teleport(void);
+	};
+
+	class SpecialRoom : public Room
+	{
+		Room* m_RandomRoom;
+	public:
+		SpecialRoom(Dungeon* t_d, int t_MaxRooms);
+		Room* teleport(void);
 	};
 
 	class Player
