@@ -15,7 +15,6 @@ namespace Maze
 	class SpecialRoom;
 	class Dungeon;
 	class Player;
-	class Item;
 
 
 	class Room
